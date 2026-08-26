@@ -1,12 +1,11 @@
 import React from 'react';
-import { Globe, Heart, BookOpen, ExternalLink, ShieldCheck, Scale } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
   onSelectTarget: (id: string) => void;
-  onOpenDeployModal: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onSelectTarget, onOpenDeployModal }) => {
+export const Footer: React.FC<FooterProps> = ({ onSelectTarget }) => {
   return (
     <footer className="bg-neutral-900 text-neutral-300 border-t-4 border-[#E11484] pt-12 pb-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
@@ -113,17 +112,10 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTarget, onOpenDeployModa
         {/* Bottom Bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 font-mono">
           <div>
-            AGENDA 2030 • ORGANIZAÇÃO DAS NAÇÕES UNIDAS
+            AGENDA 2030 • ORGANIZAÇÃO DAS NAÇÕES UNIDAS • ODS 10
           </div>
           <div className="flex items-center gap-4">
-            <button
-              onClick={onOpenDeployModal}
-              className="text-neutral-400 hover:text-white transition uppercase font-bold tracking-wider cursor-pointer"
-            >
-              Publicar no GitHub Pages
-            </button>
-            <span>•</span>
-            <span className="uppercase">Conteúdo Aberto</span>
+            <span className="uppercase">Redução das Desigualdades</span>
           </div>
         </div>
 

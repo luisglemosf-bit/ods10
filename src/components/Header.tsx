@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   Globe2, 
   Search, 
-  Github, 
   FileText, 
   Layers, 
   BarChart3, 
@@ -25,7 +24,6 @@ interface HeaderProps {
   setSearchQuery: (query: string) => void;
   darkMode: boolean;
   setDarkMode: (dark: boolean) => void;
-  onOpenDeployModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -37,8 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   setSearchQuery,
   darkMode,
-  setDarkMode,
-  onOpenDeployModal
+  setDarkMode
 }) => {
   return (
     <header id="main-header" className="sticky top-0 z-40 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-b-2 border-neutral-200 dark:border-neutral-800 transition-colors duration-200 shadow-xs">
@@ -50,24 +47,16 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="bg-black/25 text-white px-2.5 py-0.5 font-black uppercase tracking-[0.2em] text-[10px] border border-white/20">
               AGENDA 2030 • ONU
             </span>
-            <span className="hidden sm:inline font-medium text-white/95 text-xs">
+            <span className="font-medium text-white/95 text-xs">
               ODS 10 — <strong className="font-black">Redução das Desigualdades</strong> no Interior dos Países e entre Eles
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-white">
-            <span className="hidden md:inline-flex items-center gap-2 text-xs font-semibold">
+          <div className="hidden sm:flex items-center gap-4 text-white">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               10 Propostas Técnicas para as Metas 10.1 a 10.c
             </span>
-            <button 
-              id="btn-deploy-guide-top"
-              onClick={onOpenDeployModal}
-              className="inline-flex items-center gap-1.5 bg-black/20 hover:bg-black/40 text-white px-3 py-1 text-xs transition font-bold uppercase tracking-wider border border-white/25 cursor-pointer"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>Publicar no GitHub</span>
-            </button>
           </div>
         </div>
       </div>
@@ -167,25 +156,26 @@ export const Header: React.FC<HeaderProps> = ({
               </select>
             </div>
 
-            {/* Dark / Light Mode Toggle with Tooltip & State */}
+            {/* Dark / Light Mode Toggle with Clear Visual Design */}
             <button
               id="btn-theme-toggle"
+              type="button"
               onClick={() => setDarkMode(!darkMode)}
-              className="p-2 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:text-[#E11484] dark:hover:text-[#E11484] border border-neutral-300 dark:border-neutral-700 transition cursor-pointer"
+              className="inline-flex items-center gap-2 px-3 py-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-800 dark:text-neutral-100 border-2 border-neutral-300 dark:border-neutral-600 transition-all cursor-pointer font-bold text-xs uppercase tracking-wider shadow-xs select-none"
               title={darkMode ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
               aria-label="Alternar tema claro/escuro"
             >
-              {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-neutral-700" />}
-            </button>
-
-            {/* GitHub Deploy button */}
-            <button
-              id="btn-github-deploy"
-              onClick={onOpenDeployModal}
-              className="inline-flex items-center gap-1.5 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-[#E11484] dark:hover:bg-[#E11484] dark:hover:text-white text-xs font-bold uppercase tracking-wider px-3.5 py-2 transition shadow-[2px_2px_0px_0px_rgba(225,20,132,0.5)] cursor-pointer"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Exportar / Deploy</span>
+              {darkMode ? (
+                <>
+                  <Sun className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="hidden sm:inline">Claro</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-neutral-700 shrink-0" />
+                  <span className="hidden sm:inline">Escuro</span>
+                </>
+              )}
             </button>
           </div>
         </div>

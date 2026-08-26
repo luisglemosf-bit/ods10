@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { ODS10_TARGETS } from './data/odsData';
-import { TargetCategory, ODSTarget } from './types/ods';
+import { TargetCategory } from './types/ods';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { FilterBar } from './components/FilterBar';
@@ -8,16 +8,16 @@ import { TargetCard } from './components/TargetCard';
 import { TargetDetailView } from './components/TargetDetailView';
 import { DashboardKPIs } from './components/DashboardKPIs';
 import { InteractiveSimulators } from './components/InteractiveSimulators';
-import { GitHubDeployModal } from './components/GitHubDeployModal';
 import { Footer } from './components/Footer';
-import { ArrowUp, Sparkles, Layers, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export default function App() {
   const [selectedTargetId, setSelectedTargetId] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<'grid' | 'kpis' | 'simulators'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<TargetCategory>('todas');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [isDeployModalOpen, setIsDeployModalOpen] = useState<boolean>(false);
+  
+  // Theme state: dark / light mode
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('ods10_theme');
@@ -27,13 +27,14 @@ export default function App() {
     return false;
   });
 
-  // Dark mode effect with class synchronization on <html>
+  // Apply dark mode class to html element and persist
   useEffect(() => {
+    const root = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
       localStorage.setItem('ods10_theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('ods10_theme', 'light');
     }
   }, [darkMode]);
@@ -68,19 +69,16 @@ export default function App() {
     }
   };
 
-  // Category Filtering Logic mapping
+  // Category & search filtering logic
   const filteredTargets = useMemo(() => {
     return ODS10_TARGETS.filter((target) => {
       // 1. Category check
       let matchesCategory = true;
       if (selectedCategory === 'brasil_nacional') {
-        // Metas Nacionais: 10.1, 10.2, 10.3, 10.7
         matchesCategory = ['10.1', '10.2', '10.3', '10.7'].includes(target.id);
       } else if (selectedCategory === 'governanca_global') {
-        // Metas Globais / Financeiras: 10.5, 10.6, 10.a, 10.b, 10.c
         matchesCategory = ['10.5', '10.6', '10.a', '10.b', '10.c'].includes(target.id);
       } else if (selectedCategory === 'trabalho_renda') {
-        // Trabalho e Renda: 10.1, 10.4
         matchesCategory = ['10.1', '10.4'].includes(target.id);
       }
 
@@ -112,7 +110,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FAF9F6] dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 antialiased selection:bg-[#E11484] selection:text-white transition-colors duration-200">
       
-      {/* 1. Fixed Header */}
+      {/* 1. Header with Dark/Light Mode Toggle */}
       <Header
         targets={ODS10_TARGETS}
         selectedTargetId={selectedTargetId}
@@ -123,13 +121,12 @@ export default function App() {
         setSearchQuery={setSearchQuery}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
-        onOpenDeployModal={() => setIsDeployModalOpen(true)}
       />
 
-      {/* 2. Main Content Router */}
+      {/* 2. Main Content Views */}
       <main className="transition-all">
         
-        {/* VIEW 1: SELECTED TARGET DETAIL VIEW (CAMADA 2 - PAINEL INTERATIVO DE LEITURA DETALHADA) */}
+        {/* VIEW 1: SELECTED TARGET DETAIL VIEW (CAMADA 2) */}
         {selectedTarget ? (
           <TargetDetailView
             target={selectedTarget}
@@ -144,15 +141,15 @@ export default function App() {
             onSelectTarget={handleSelectTarget}
           />
         ) : activeView === 'simulators' ? (
-          /* VIEW 3: INTERACTIVE IMPACT SIMULATORS */
+          /* VIEW 3: IMPACT SIMULATORS */
           <InteractiveSimulators
             onSelectTarget={handleSelectTarget}
           />
         ) : (
-          /* VIEW 4: OVERVIEW & GRID (CAMADA 1 - VISÃO PANORÂMICA DE CARTÕES) */
+          /* VIEW 4: OVERVIEW & GRID (CAMADA 1) */
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-10">
             
-            {/* Dynamic Hero Section with 4 Key Metrics */}
+            {/* Hero Section */}
             <HeroSection
               onExploreClick={() => {
                 const el = document.getElementById('grid-propostas-section');
@@ -162,7 +159,7 @@ export default function App() {
               }}
             />
 
-            {/* Filter Bar with Category Pills & Search Box */}
+            {/* Filter Bar */}
             <div id="grid-propostas-section">
               <FilterBar
                 selectedCategory={selectedCategory}
@@ -174,7 +171,7 @@ export default function App() {
               />
             </div>
 
-            {/* Grid of Selection Cards (10 Metas) */}
+            {/* Grid of 10 Targets */}
             <section aria-label="Catálogo das 10 Metas do ODS 10">
               {filteredTargets.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -219,13 +216,6 @@ export default function App() {
       {/* 3. Footer */}
       <Footer
         onSelectTarget={handleSelectTarget}
-        onOpenDeployModal={() => setIsDeployModalOpen(true)}
-      />
-
-      {/* 4. GitHub Deploy Instructions Modal */}
-      <GitHubDeployModal
-        isOpen={isDeployModalOpen}
-        onClose={() => setIsDeployModalOpen(false)}
       />
 
     </div>
