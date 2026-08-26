@@ -784,30 +784,38 @@ export const TargetDetailView: React.FC<TargetDetailViewProps> = ({
       </div>
 
       {/* Bottom Navigation between targets */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 mt-12 pt-6 border-t-2 border-neutral-200 dark:border-neutral-800 flex items-center justify-between gap-4">
         {prevTarget ? (
           <button
-            onClick={() => onSelectTarget(prevTarget.id)}
-            className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-rose-600 transition"
+            id="btn-bottom-prev-target"
+            onClick={() => {
+              onSelectTarget(prevTarget.id);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-200 hover:text-[#E11484] dark:hover:text-[#E11484] p-3 bg-white dark:bg-neutral-900 border-2 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.9)] transition cursor-pointer"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 text-[#E11484]" />
             <div className="text-left">
-              <span className="text-[10px] text-slate-400 block font-normal">Meta Anterior</span>
-              <span>{prevTarget.numberLabel}: {prevTarget.solutionName}</span>
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 block font-normal">Meta Anterior</span>
+              <span className="font-black">{prevTarget.numberLabel}: {prevTarget.solutionName}</span>
             </div>
           </button>
         ) : <div />}
 
         {nextTarget ? (
           <button
-            onClick={() => onSelectTarget(nextTarget.id)}
-            className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-rose-600 transition"
+            id="btn-bottom-next-target"
+            onClick={() => {
+              onSelectTarget(nextTarget.id);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-200 hover:text-[#E11484] dark:hover:text-[#E11484] p-3 bg-white dark:bg-neutral-900 border-2 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.9)] transition cursor-pointer"
           >
             <div className="text-right">
-              <span className="text-[10px] text-slate-400 block font-normal">Próxima Meta</span>
-              <span>{nextTarget.numberLabel}: {nextTarget.solutionName}</span>
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 block font-normal">Próxima Meta</span>
+              <span className="font-black">{nextTarget.numberLabel}: {nextTarget.solutionName}</span>
             </div>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-[#E11484]" />
           </button>
         ) : <div />}
       </div>

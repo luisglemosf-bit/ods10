@@ -1,5 +1,8 @@
 export type TargetCategory = 
-  | 'todos'
+  | 'todas'
+  | 'brasil_nacional'
+  | 'governanca_global'
+  | 'trabalho_renda'
   | 'nacional'
   | 'global'
   | 'renda_trabalho'
