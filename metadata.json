@@ -1,0 +1,6 @@
+{
+  "name": "Portal ODS 10 - Redução das Desigualdades",
+  "description": "Plataforma interativa com as propostas técnicas e soluções estratégicas para o cumprimento de todas as metas da ODS 10 da ONU até 2030.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
